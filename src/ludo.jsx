@@ -1,7 +1,7 @@
 export default function Ludo() {
     return(
         <>
-            <h1>game start</h1>
+            <h1>Game Start</h1>
         </>
     )
 }
