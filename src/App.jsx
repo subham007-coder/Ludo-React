@@ -1,9 +1,13 @@
 import './App.css'
 import Ludo from './ludo';
+import TodoList from './Todo';
+
 
 function App() {  return (
     <>
-      <Ludo />
+      {/* <Ludo /> */}
+      
+      <TodoList/>
     </>
   )
 }
