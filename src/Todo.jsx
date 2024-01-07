@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 export default function TodoList() {
-    let [todos, setTodos] = useState([{task: "sampale todo", id: uuidv4()}]);
+    let [todos, setTodos] = useState([{ task: "sampale todo", id: uuidv4() }]);
     let [newTodos, NewSetTodos] = useState();
 
     let updateTodoValue = (e) => {
@@ -11,14 +11,21 @@ export default function TodoList() {
     }
 
     let addNewTask = () => {
-        setTodos([...todos, {task: newTodos, id: uuidv4()}]);
-        NewSetTodos("")
+        setTodos((pervTodo) => {
+            return [...pervTodo, { task: newTodos, id: uuidv4() }];
+        });
+        NewSetTodos("");
     }
+
+    let  deleteTodo = (id) => {
+       setTodos(todos.filter((todo) => todo.id != id))
+    }
+    
 
     return (
         <>
             <div>
-                <input type="text" value={newTodos} onChange={updateTodoValue} placeholder="add a task" />
+                <input name="myInput" type="text" value={newTodos} onChange={updateTodoValue} placeholder="add a task" />
                 <br /><br />
                 <button onClick={addNewTask}>Add Task</button>
                 <br /><br />
@@ -26,7 +33,13 @@ export default function TodoList() {
                 <ul>
                     {
                         todos.map((todo) => (
-                            <li key={todo.id}>{todo.task}</li>
+                            <li key={todo.id}>
+                                <span>{todo.task}</span>
+                                &nbsp;&nbsp;&nbsp;
+                                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+                                <br />
+                                <br />
+                            </li>
                         ))
                     }
                 </ul>
