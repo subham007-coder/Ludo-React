@@ -12,7 +12,7 @@ export default function TodoList() {
 
     let addNewTask = () => {
         setTodos((pervTodo) => {
-            return [...pervTodo, { task: newTodos, id: uuidv4() }];
+            return [...pervTodo, { task: newTodos, id: uuidv4(), isDone: false }];
         });
         NewSetTodos("");
     }
@@ -21,16 +21,47 @@ export default function TodoList() {
         setTodos(todos.filter((todo) => todo.id != id));
     }
 
-    let upperCase = () => {
-        setTodos((pervTodo) => 
+    let upperCaseAll = () => {
+        setTodos((pervTodo) =>
             pervTodo.map((todo) => {
-                return{
+                return {
                     ...todo,
-                     task: todo.task.toUpperCase()
+                    task: todo.task.toUpperCase()
                 }
             })
         )
     }
+
+    let upperCaseOne = (id) => {
+        setTodos((pervTodo) =>
+            pervTodo.map((todo) => {
+                if (todo.id == id) {
+                    return {
+                        ...todo,
+                        task: todo.task.toUpperCase()
+                    }
+                } else {
+                    return todo;
+                }
+            })
+        )
+    }
+
+    let doneOne = (id) => {
+        setTodos((pervTodo) =>
+            pervTodo.map((todo) => {
+                console.log(todo.isDone);
+                if (todo.id == id) {
+                    return {
+                        ...todo,
+                        isDone: true
+                    }
+                } else {
+                    return todo;
+                }
+            })
+        )
+    };
 
     return (
         <>
@@ -44,15 +75,19 @@ export default function TodoList() {
                     {
                         todos.map((todo) => (
                             <li key={todo.id}>
-                                <span>{todo.task}</span>
+                                <span style={todo.isDone ? { textDecorationLine: "line-through" } : {}}>{todo.task}</span>
                                 &nbsp;&nbsp;&nbsp;
                                 <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+                                &nbsp;
+                                <button onClick={() => upperCaseOne(todo.id)}>UpperCaseOne</button>
+                                &nbsp;
+                                <button onClick={() => doneOne(todo.id)}>Mark As Done</button>
                                 <br />
                                 <br />
                             </li>
                         ))
                     }
-                    <button onClick={upperCase}>Upper Case All</button>
+                    <button onClick={upperCaseAll}>Upper Case All</button>
                 </ul>
             </div>
         </>
